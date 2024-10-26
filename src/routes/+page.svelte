@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
     type CanvaCodeBlock = {
         id: string,
         x: number,
@@ -43,22 +45,20 @@
         // console.log("drop");
     }
 
-    
+    $inspect(codeBlocks)
 </script>
 
 <div class="container">
-    <div class="canvas">
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <svg viewBox="0 0 600 400" id="div1" ondrop={drop} ondragover={allowDrop}>
-            {#each codeBlocks as codeBlock}
-                <rect {...codeBlock} fill={"#555"} onclick={(e) => {
-                    e.stopPropagation()
-                }} oncontextmenu={(e) => {
-                    e.preventDefault()
-                }}></rect>
-            {/each}
-        </svg>
-    </div>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <svg viewBox="0 0 600 400" id="div1" ondrop={drop} ondragover={allowDrop}>
+        {#each codeBlocks as codeBlock}
+            <rect {...codeBlock} width="100" height="100" fill={"#555"} onclick={(e) => {
+                e.stopPropagation()
+            }} oncontextmenu={(e) => {
+                e.preventDefault()
+            }}></rect>
+        {/each}
+    </svg>
     <div class="blocks">
         <p class="block" id="drag1" draggable="true">
             Block
@@ -77,9 +77,6 @@
         gap: 1rem;
     }
 
-    .canvas {
-        width: 100%;
-    }
     .blocks {
         width: 100%;
         background-color: beige;
@@ -97,9 +94,7 @@
         }
     }
 
-    .canvas svg {
+    svg {
         background-color: lightcyan;
-        height: 100vh;
-        width: 100%;
     }
 </style>
