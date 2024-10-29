@@ -1,12 +1,12 @@
 <script lang="ts">
-    let { codeBlocks = $bindable([]), selected = $bindable(null), width = $bindable(0), height = $bindable(0), action = $bindable('adding') }: 
-    { codeBlocks: CanvaCodeBlock[], selected: CanvaCodeBlock | null, width: number, height: number, action: 'adding' | 'changing' } = $props();
+    import type { CodeBlock } from "$lib/types/codeBlock";
+	import { getContextStore } from "$lib/utils/contextStore.svelte";
 
-    type CanvaCodeBlock = {
-        id: string,
-        x: number,
-        y: number
-    }
+	const codeBlocks = getContextStore<CodeBlock[]>('codeBlocks');
+    const selected = getContextStore<CodeBlock | null>('selected');
+    const width = getContextStore<number>('width');
+    const height = getContextStore<number>('height');
+    const action = getContextStore<'adding' | 'changing'>('action');
     
     function allowDrop(e: DragEvent) {
         e.preventDefault();
@@ -15,14 +15,14 @@
     function drop(e: DragEvent) {
         e.preventDefault();
         
-        if(action === 'changing') {
-            codeBlocks = codeBlocks.filter((codeBlock) => codeBlock.id !== selected?.id)
+        if($action === 'changing') {
+            $codeBlocks = $codeBlocks.filter((codeBlock) => codeBlock.id !== $selected?.id)
         }
 
         const svgEl = e.target as SVGElement;
         const { left, top } = svgEl.getBoundingClientRect();
-        const x = +((e.clientX - left) - (width / 2)).toFixed();
-        const y = +((e.clientY - top) - (height)).toFixed();
+        const x = +((e.clientX - left) - ($width / 2)).toFixed();
+        const y = +((e.clientY - top) - ($height)).toFixed();
 
         const codeBlock = {
             id: window.crypto.randomUUID(),
@@ -30,26 +30,26 @@
             y: y,
         }
 
-        codeBlocks.push(codeBlock)
-        selected = codeBlock
-        width = 0
-        height = 0
+        $codeBlocks = [...$codeBlocks, codeBlock]
+        $selected = codeBlock
+        $width = 0
+        $height = 0
     }
 
-    function handleDragStart(e: DragEvent, codeBlock: CanvaCodeBlock) {
+    function handleDragStart(e: DragEvent, codeBlock: CodeBlock) {
         const target = e.target as HTMLElement;
-        width = target.clientWidth || 0;
-        height = target.clientHeight || 0;
-        selected = codeBlock
-        action = 'changing'
+        $width = target.clientWidth || 0;
+        $height = target.clientHeight || 0;
+        $selected = codeBlock
+        $action = 'changing'
     }
 
-    $inspect(codeBlocks)
+    $inspect($codeBlocks)
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div style="background-color: lightcyan; position: relative; width: 100%; height: 100vh" id="div1" ondrop={drop} ondragover={allowDrop}>
-    {#each codeBlocks as codeBlock}
+    {#each $codeBlocks as codeBlock}
         <p style="position: absolute; left: {codeBlock.x}px; top: {codeBlock.y}px;" class="block" draggable="true" ondragstart={(e) => {
             handleDragStart(e, codeBlock)
         }}>

@@ -1,18 +1,18 @@
 <script lang="ts">
-    let { codeBlocks = $bindable([]), selected = $bindable(null), width = $bindable(0), height = $bindable(0), action = $bindable('adding') }: 
-    { codeBlocks: CanvaCodeBlock[], selected: CanvaCodeBlock | null, width: number, height: number, action: 'adding' | 'changing' } = $props();
+	import type { CodeBlock } from "$lib/types/codeBlock";
+	import { getContextStore } from "$lib/utils/contextStore.svelte";
 
-    type CanvaCodeBlock = {
-        id: string,
-        x: number,
-        y: number
-    }
+	const codeBlocks = getContextStore<CodeBlock[]>('codeBlocks');
+    const selected = getContextStore<CodeBlock | null>('selected');
+    const width = getContextStore<number>('width');
+    const height = getContextStore<number>('height');
+    const action = getContextStore<'adding' | 'changing'>('action');
 
     function handleDragStart(e: DragEvent) {
         const target = e.target as HTMLElement;
-        width = target.clientWidth || 0;
-        height = target.clientHeight || 0;
-        action = 'adding';
+        $width = target.clientWidth || 0;
+        $height = target.clientHeight || 0;
+        $action = 'adding';
     }
 
     function allowDrop(e: DragEvent) {
@@ -22,11 +22,11 @@
     function drop(e: DragEvent) {
         e.preventDefault();
         
-        if(action === 'changing') {
-            codeBlocks = codeBlocks.filter((codeBlock) => codeBlock.id !== selected?.id)
+        if($action === 'changing') {
+            $codeBlocks = $codeBlocks.filter((codeBlock) => codeBlock.id !== $selected?.id)
         }
-        width = 0
-        height = 0
+        $width = 0
+        $height = 0
     }
 </script>
 
