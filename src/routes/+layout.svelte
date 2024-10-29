@@ -9,6 +9,7 @@
     setContextStore<CodeBlock | null>('selected', null)
     setContextStore<number>('width', 0)
     setContextStore<number>('height', 0)
+    setContextStore<boolean>('dragging', false)
     setContextStore<'adding' | 'changing'>('action', 'adding')
 </script>
 

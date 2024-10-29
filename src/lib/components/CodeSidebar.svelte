@@ -6,6 +6,7 @@
     const selected = getContextStore<CodeBlock | null>('selected');
     const width = getContextStore<number>('width');
     const height = getContextStore<number>('height');
+    const dragging = getContextStore<boolean>('dragging');
     const action = getContextStore<'adding' | 'changing'>('action');
 
     function handleDragStart(e: DragEvent) {
@@ -13,6 +14,7 @@
         $width = target.clientWidth || 0;
         $height = target.clientHeight || 0;
         $action = 'adding';
+        $dragging = true;
     }
 
     function allowDrop(e: DragEvent) {
@@ -27,6 +29,7 @@
         }
         $width = 0
         $height = 0
+        $dragging = false;
     }
 </script>
 
