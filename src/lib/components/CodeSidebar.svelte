@@ -73,9 +73,9 @@
         </button>
     </div>
     <div class="blocks" ondrop={drop} ondragover={allowDrop}>
-        <!-- <p class="block" id="drag1" draggable="true" ondragstart={handleDragStart}>
+        <p class="block" id="drag1" draggable="true" ondragstart={handleDragStart}>
             Block
-        </p> -->
+        </p>
     </div>
 </div>
 
@@ -113,5 +113,16 @@
     .blocks {
         width: 100%;
         background-color: white;
+    }
+    .block {
+        background-color: lightcoral;
+        color: white;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .block:hover {
+        cursor: move;
     }
 </style>
