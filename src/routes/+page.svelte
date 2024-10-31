@@ -17,7 +17,7 @@
 
     .container {
         display: grid;
-        grid-template-columns: 0.5fr 1fr 1fr;
-        gap: 0.5rem;
+        grid-template-columns: 0.5fr 1fr 0.75fr;
+        gap: 0;
     }
 </style>

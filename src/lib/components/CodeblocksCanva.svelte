@@ -53,7 +53,7 @@
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div style="background-color: lightcyan; position: relative; width: 100%; height: 100vh" id="div1" ondrop={drop} ondragover={allowDrop}>
+<div style="background-image: radial-gradient(lightgray 1px, transparent 1px); background-size: 14px 14px; position: relative; width: 100%; height: 100vh" id="div1" ondrop={drop} ondragover={allowDrop}>
     {#each $codeBlocks as codeBlock}
         <p data-id={codeBlock.id} style="position: absolute; left: {codeBlock.x}px; top: {codeBlock.y}px;" class="block" draggable="true" ondragstart={(e) => {
             handleDragStart(e, codeBlock)
